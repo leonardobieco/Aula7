@@ -1,1 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Model Canvas - Agente Operacional de IA</title>
+  <style>
+    :root {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #2563eb;
+      --badge-fato: #10b981;
+      --badge-hipotese: #f59e0b;
+      --badge-lacuna: #ef4444;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1400px;
+      margin: 0 auto 20px auto;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .canvas-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+
+    .block {
+      background: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .block:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .block.active {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .block-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .block-summary {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .block-summary li {
+      list-style-type: none;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .block-summary li::before {
+      content: "•";
+      color: var(--primary);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    /* Posicionamento tradicional do Canvas */
+    .parcerias { grid-column: span 2; grid-row: 1 / 3; }
+    .atividades { grid-column: span 2; grid-row: 1; }
+    .recursos { grid-column: span 2; grid-row: 2; }
+    .proposta { grid-column: span 2; grid-row: 1 / 3; }
+    .relacionamento { grid-column: span 2; grid-row: 1; }
+    .canais { grid-column: span 2; grid-row: 2; }
+    .segmentos { grid-column: span 2; grid-row: 1 / 3; }
+    .custos { grid-column: span 5; grid-row: 3; }
+    .receita { grid-column: span 5; grid-row: 3; }
+
+    /* Modal / Painel Lateral */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 640px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal-header {
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lens-box {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    .lens-blank {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .lens-osterwalder {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+    }
+
+    .validation-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .lens-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+
+    .tag-fato { background: #dcfce7; color: #15803d; }
+    .tag-hipotese { background: #fef3c7; color: #b45309; }
+    .tag-lacuna { background: #fee2e2; color: #b91c1c; }
+
+    @media (max-width: 1024px) {
+      .canvas-container {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Business Model Canvas <span>• Agente Operacional de IA</span></h1>
+      <p>Projeto de Automação & Assistência Técnica Interna via Copilot</p>
+    </div>
+    <div class="badge-status">
+      Submissão Acadêmica & Pitch de Liderança
+    </div>
+  </header>
+
+  <main class="canvas-container">
+    <!-- Parcerias-Chave -->
+    <div class="block parcerias" onclick="openDetails('parcerias')">
+      <div class="block-header">
+        <span class="block-title">Parcerias-Chave</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Microsoft (Provedor Copilot)</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> TI/Segurança da Informação</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Usuários-piloto para homologação</li>
+      </ul>
+    </div>
+
+    <!-- Atividades-Chave -->
+    <div class="block atividades" onclick="openDetails('atividades')">
+      <div class="block-header">
+        <span class="block-title">Atividades-Chave</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Ingestão contínua de procedimentos</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Auditoria periódica de acurácia</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Calibração via feedback dos pares</li>
+      </ul>
+    </div>
+
+    <!-- Proposta de Valor -->
+    <div class="block proposta" onclick="openDetails('proposta')">
+      <div class="block-header">
+        <span class="block-title">Proposta de Valor</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Diagnóstico ágil de incidentes operacionais</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Redução de esforço em rotinas repetitivas</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Nivelamento imediato de conceitos técnicos</li>
+      </ul>
+    </div>
+
+    <!-- Relacionamento com Clientes -->
+    <div class="block relacionamento" onclick="openDetails('relacionamento')">
+      <div class="block-header">
+        <span class="block-title">Relacionamento</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Suporte automatizado e veloz</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Mecanismo human-in-the-loop ativo</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Gestão de expectativa contra alucinação</li>
+      </ul>
+    </div>
+
+    <!-- Segmentos de Clientes -->
+    <div class="block segmentos" onclick="openDetails('segmentos')">
+      <div class="block-header">
+        <span class="block-title">Segmentos de Clientes</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Especialistas e analistas da operação direta</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Liderança focada em ganhos de produtividade</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Stakeholders corporativos de TI e Governança</li>
+      </ul>
+    </div>
+
+    <!-- Recursos-Chave -->
+    <div class="block recursos" onclick="openDetails('recursos')">
+      <div class="block-header">
+        <span class="block-title">Recursos-Chave</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Licenciamento Microsoft Copilot ativo</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Base curada de regras e documentação</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Tempo do especialista para engenharia de prompt</li>
+      </ul>
+    </div>
+
+    <!-- Canais -->
+    <div class="block canais" onclick="openDetails('canais')">
+      <div class="block-header">
+        <span class="block-title">Canais</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Ponto focal em software corporativo habitual</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Triagem automática de mensagens de entrada</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Interface sem atrito para consulta de pares</li>
+      </ul>
+    </div>
+
+    <!-- Estrutura de Custos -->
+    <div class="block custos" onclick="openDetails('custos')">
+      <div class="block-header">
+        <span class="block-title">Estrutura de Custos</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Sem custo adicional de desenvolvimento visual</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Consumo de tokens e infraestrutura corporativa</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Custo de oportunidade de horas técnicas na curadoria</li>
+      </ul>
+    </div>
+
+    <!-- Fontes de Receita -->
+    <div class="block receita" onclick="openDetails('receita')">
+      <div class="block-header">
+        <span class="block-title">Fontes de Receita</span>
+      </div>
+      <ul class="block-summary">
+        <li><span class="tag tag-fato">Fato</span> Captura de valor interno sem repasse financeiro</li>
+        <li><span class="tag tag-hipotese">Hipótese</span> Economia de horas técnicas dedicadas a dúvidas</li>
+        <li><span class="tag tag-lacuna">Lacuna</span> Mitigação mensurável de falhas operacionais</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Modal Detalhado -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Detalhes do Bloco</h2>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      segmentos: {
+        title: "Segmentos de Clientes",
+        items: [
+          "[Fato] Analistas e especialistas operacionais que lidam com incidentes recorrentes diariamente.",
+          "[Hipótese] Gestores imediatos compram a ideia pela promessa de redução de horas e retrabalho.",
+          "[Lacuna] Falta formalizar o papel da TI Corporativa como cliente de conformidade e governança."
+        ],
+        blank: "Validar se o problema é sentido por toda a equipe ou se é uma percepção isolada de quem está desenhando o agente.",
+        osterwalder: "Diferenciar claramente o 'usuário final' (analista) do 'decisor de permanência' (gestor da área).",
+        action: "Entrevistar 3 analistas do time sobre os três maiores nós diários de comunicação técnica."
+      },
+      proposta: {
+        title: "Proposta de Valor",
+        items: [
+          "[Fato] Resolução acelerada de dúvidas técnicas e procedimentos padronizados.",
+          "[Hipótese] Redução de tempo operacional gasto em triagem de incidentes repetitivos.",
+          "[Lacuna] Como auditar a acurácia sem criar dependência cega da equipe na ferramenta."
+        ],
+        blank: "O valor real está no resultado entregue (fechamento rápido do chamado), não na conversa com o bot.",
+        osterwalder: "Balancear geradores de ganhos (autonomia técnica da equipe) e aliviadores de dor (eliminação de retrabalho).",
+        action: "Medir o tempo médio gasto atualmente para esclarecer uma regra não documentada sem a IA."
+      },
+      canais: {
+        title: "Canais",
+        items: [
+          "[Fato] Ponto de contato único dentro da plataforma de colaboração corporativa já ativa.",
+          "[Hipótese] A equipe aceitará concentrar todas as entradas via agente em vez do contato direto pessoal.",
+          "[Lacuna] Mecanismo de fallback caso o agente apresente instabilidade ou resposta imprecisa."
+        ],
+        blank: "Se a interface for trabalhosa ou exigir muitos cliques, as pessoas vão voltar a te acionar direto.",
+        osterwalder: "Garantir presença fluida em todas as fases: descoberta, avaliação, consulta e suporte.",
+        action: "Atuar como 'IA oculta' em 5 demandas via canal atual para validar o formato das respostas antes de lançar o bot."
+      },
+      relacionamento: {
+        title: "Relacionamento com Clientes",
+        items: [
+          "[Fato] Interações automatizadas com respostas contextuais orientadas à rotina.",
+          "[Hipótese] A equipe manterá engajamento contínuo sugerindo melhorias na base.",
+          "[Lacuna] Diretrizes transparentes para os casos em que a IA alucinar ou não souber a resposta."
+        ],
+        blank: "A primeira alucinação em produção pode quebrar permanentemente a credibilidade do projeto com o time.",
+        osterwalder: "Adotar o modelo de serviço automatizado assistido (Human-in-the-loop) para resguardar a confiança.",
+        action: "Coletar feedback cego de 3 membros do time sobre a precisão de saídas geradas previamente pela IA."
+      },
+      receita: {
+        title: "Fontes de Receita",
+        items: [
+          "[Fato] Solução baseada em infraestrutura previamente custeada pela corporação.",
+          "[Hipótese] ROI medido através de horas técnicas poupadas e prevenção de incidentes críticos.",
+          "[Lacuna] Métrica clara e aceita pela liderança para defender a continuidade da solução."
+        ],
+        blank: "A moeda de troca corporativa é a atenção dos analistas e o apoio político dos gestores.",
+        osterwalder: "A sustentabilidade do projeto depende da justificativa contínua do uso de tokens e horas.",
+        action: "Apresentar a estimativa de horas poupadas em uma reunião piloto com o gestor direto."
+      },
+      recursos: {
+        title: "Recursos-Chave",
+        items: [
+          "[Fato] Ecossistema Microsoft Copilot disponível no ambiente de trabalho.",
+          "[Hipótese] Existência de repositório estruturado e confiável com a base técnica.",
+          "[Lacuna] Disponibilidade de agenda técnica para manter e recalibrar os prompts."
+        ],
+        blank: "Sem curadoria crítica feita por especialistas humanos, o agente apenas distribui ruído mais rápido.",
+        osterwalder: "O recurso proprietário não é o Copilot (comoditizado), mas a base de conhecimento interna.",
+        action: "Organizar e carregar 3 manuais mais acessados no ambiente de testes para checar as respostas."
+      },
+      atividades: {
+        title: "Atividades-Chave",
+        items: [
+          "[Fato] Atualização e alimentação contínua de procedimentos no repositório de dados.",
+          "[Hipótese] Monitoramento semanal das métricas de acurácia e satisfação interna.",
+          "[Lacuna] Governança de versionamento para regras de negócio descontinuadas."
+        ],
+        blank: "Ajustar o comportamento a partir dos erros do usuário é mais crítico do que apenas subir arquivos.",
+        osterwalder: "Integrar curadoria de dados, refinamento de prompts e ciclo fechado de resolução técnica.",
+        action: "Definir um slot semanal fixo de 20 minutos para saneamento e atualização dos documentos da base."
+      },
+      parcerias: {
+        title: "Parcerias-Chave",
+        items: [
+          "[Fato] Microsoft como provedor de tecnologia de modelos e infraestrutura corporativa.",
+          "[Hipótese] Apoio irrestrito da área de Segurança e Governança da Informação.",
+          "[Lacuna] Engajamento explícito de early adopters internos dispostos a testar e reportar falhas."
+        ],
+        blank: "Parceiros internos são o oxigênio: se os colegas não comprarem a ideia, a ferramenta vira elefante branco.",
+        osterwalder: "Mapear a conformidade de dados para evitar bloqueios repentinos por auditoria interna.",
+        action: "Consultar formalmente o time de TI/Segurança sobre regras de confidencialidade na ingestão interna."
+      },
+      custos: {
+        title: "Estrutura de Custos",
+        items: [
+          "[Fato] Inexistência de investimento em desenvolvimento de interface visual customizada.",
+          "[Hipótese] Consumo de licenças e capacidade de processamento absorvidos pela organização.",
+          "[Lacuna] Quantificação exata das horas gastas no suporte manual e na manutenção contínua."
+        ],
+        blank: "O maior custo invisível é o custo de oportunidade do tempo investido pelo especialista que o constrói.",
+        osterwalder: "Controlar a complexidade da orquestração para evitar custos ocultos de manutenção técnica.",
+        action: "Cronometrar o tempo investido na primeira semana de parametrização e testes para reportar ao gestor."
+      }
+    };
+
+    function openDetails(blockKey) {
+      const info = data[blockKey];
+      if (!info) return;
+
+      document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
+      const activeEl = document.querySelector(`.${blockKey}`);
+      if (activeEl) activeEl.classList.add('active');
+
+      document.getElementById('modalTitle').textContent = info.title;
+
+      let itemsHtml = '<ul style="margin-left: 18px; margin-bottom: 16px; font-size: 0.9rem;">';
+      info.items.forEach(it => {
+        itemsHtml += `<li style="margin-bottom: 6px;">${it}</li>`;
+      });
+      itemsHtml += '</ul>';
+
+      const content = `
+        ${itemsHtml}
+        <div class="lens-box lens-blank">
+          <div class="lens-title">💡 Lente de Descoberta (Steve Blank)</div>
+          <div>${info.blank}</div>
+        </div>
+        <div class="lens-box lens-osterwalder">
+          <div class="lens-title">⚖️ Lente de Coerência (Alexander Osterwalder)</div>
+          <div>${info.osterwalder}</div>
+        </div>
+        <div class="lens-box validation-box">
+          <div class="lens-title">🎯 Ação de Validação Imediata</div>
+          <div>${info.action}</div>
+        </div>
+      `;
+
+      document.getElementById('modalBody').innerHTML = content;
+      document.getElementById('detailModal').classList.add('active');
+    }
+
+    function closeModal(e) {
+      document.getElementById('detailModal').classList.remove('active');
+      document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
+    }
+  </script>
+</body>
+</html>
