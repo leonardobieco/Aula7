@@ -3,151 +3,229 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Model Canvas - Agente Operacional de IA</title>
+  <title>Business Model Canvas • Agente Operacional de IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #f1f5f9;
+      --bg-surface: #0b1329;
+      --canvas-bg: #f8fafc;
       --card-bg: #ffffff;
-      --border-color: #cbd5e1;
+      --card-border: #e2e8f0;
+      
+      --navy-900: #0a1128;
+      --navy-800: #0f1c3f;
+      --navy-700: #1c2d5a;
+      --navy-600: #253b75;
+      
+      --accent-blue: #0284c7;
+      --accent-cyan: #38bdf8;
+      
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --accent: #2563eb;
-      --badge-fato: #10b981;
-      --badge-hipotese: #f59e0b;
-      --badge-lacuna: #ef4444;
+      --text-sub: #475569;
+      
+      --tag-fato-bg: #ecfdf5;
+      --tag-fato-text: #047857;
+      --tag-fato-border: #a7f3d0;
+      
+      --tag-hipotese-bg: #fffbeb;
+      --tag-hipotese-text: #b45309;
+      --tag-hipotese-border: #fde68a;
+      
+      --tag-lacuna-bg: #fef2f2;
+      --tag-lacuna-text: #b91c1c;
+      --tag-lacuna-border: #fecaca;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: var(--bg-color);
+      background-color: var(--canvas-bg);
       color: var(--text-main);
-      padding: 24px;
+      padding: 24px 20px 60px 20px;
       line-height: 1.5;
     }
 
+    /* Header Corporativo em Azul Escuro */
     header {
       max-width: 1400px;
-      margin: 0 auto 20px auto;
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
+      margin: 0 auto 28px auto;
+      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 50%, var(--navy-700) 100%);
+      padding: 28px 36px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px -8px rgba(10, 17, 40, 0.45);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
     }
 
-    header h1 {
-      font-size: 1.6rem;
-      color: var(--text-main);
+    header::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(2, 132, 199, 0) 70%);
+      pointer-events: none;
+    }
+
+    .header-content h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    header p {
-      color: var(--text-muted);
+    .header-content p {
+      color: #94a3b8;
       font-size: 0.95rem;
+      margin-top: 6px;
+      font-weight: 400;
     }
 
     .badge-status {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 20px;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
       font-size: 0.8rem;
-      font-weight: 600;
-      background: #e0f2fe;
-      color: #0369a1;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      backdrop-filter: blur(8px);
     }
 
+    .badge-status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    /* Grid do Business Model Canvas */
     .canvas-container {
       max-width: 1400px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: auto auto;
-      gap: 16px;
+      grid-template-rows: auto auto auto;
+      gap: 18px;
     }
 
     .block {
       background: var(--card-bg);
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      padding: 20px;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
     }
 
     .block:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
-      transform: translateY(-2px);
+      border-color: var(--navy-600);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px -6px rgba(15, 28, 63, 0.14);
     }
 
     .block.active {
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+      border: 2px solid var(--accent-blue);
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
     }
 
     .block-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
       border-bottom: 1px solid #f1f5f9;
-      padding-bottom: 8px;
     }
 
     .block-title {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      color: var(--navy-700);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+    }
+
+    .block-icon {
+      width: 22px;
+      height: 22px;
+      color: var(--navy-600);
+    }
+
+    .click-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .block-summary {
-      font-size: 0.85rem;
-      color: var(--text-main);
+      font-size: 0.86rem;
+      color: var(--text-sub);
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+      line-height: 1.45;
     }
 
     .block-summary li {
       list-style-type: none;
-      position: relative;
-      padding-left: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
     }
 
-    .block-summary li::before {
-      content: "•";
-      color: var(--primary);
-      position: absolute;
-      left: 0;
-      font-weight: bold;
+    /* Tags Estratégicas */
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
-    /* Posicionamento tradicional do Canvas */
+    .tag-fato { background: var(--tag-fato-bg); color: var(--tag-fato-text); border: 1px solid var(--tag-fato-border); }
+    .tag-hipotese { background: var(--tag-hipotese-bg); color: var(--tag-hipotese-text); border: 1px solid var(--tag-hipotese-border); }
+    .tag-lacuna { background: var(--tag-lacuna-bg); color: var(--tag-lacuna-text); border: 1px solid var(--tag-lacuna-border); }
+
+    /* Mapeamento de Posições do Canvas */
     .parcerias { grid-column: span 2; grid-row: 1 / 3; }
     .atividades { grid-column: span 2; grid-row: 1; }
     .recursos { grid-column: span 2; grid-row: 2; }
@@ -158,19 +236,20 @@
     .custos { grid-column: span 5; grid-row: 3; }
     .receita { grid-column: span 5; grid-row: 3; }
 
-    /* Modal / Painel Lateral */
+    /* Modal de Detalhes e Lentes */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(10, 17, 40, 0.65);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 100;
-      padding: 16px;
+      z-index: 1000;
+      padding: 20px;
     }
 
     .modal-overlay.active {
@@ -178,84 +257,94 @@
     }
 
     .modal-content {
-      background: #fff;
-      border-radius: 12px;
+      background: #ffffff;
+      border-radius: 18px;
       width: 100%;
-      max-width: 640px;
-      padding: 24px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 660px;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(10, 17, 40, 0.35);
       position: relative;
+      border: 1px solid #e2e8f0;
+      animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      background: none;
+      top: 20px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f1f5f9;
       border: none;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       cursor: pointer;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
     }
 
     .modal-header {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .modal-header h2 {
-      font-size: 1.3rem;
-      color: var(--text-main);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy-900);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .lens-box {
       margin-top: 14px;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 0.88rem;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .lens-blank {
-      background: #eff6ff;
-      border-left: 4px solid #3b82f6;
+      background: #f0f7ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
     }
 
     .lens-osterwalder {
       background: #f0fdf4;
-      border-left: 4px solid #10b981;
+      border-left: 4px solid #059669;
+      color: #064e3b;
     }
 
     .validation-box {
-      background: #fffbeb;
-      border-left: 4px solid #f59e0b;
+      background: #fefce8;
+      border-left: 4px solid #d97706;
+      color: #78350f;
     }
 
     .lens-title {
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 0.88rem;
     }
 
-    .tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-right: 6px;
-    }
-
-    .tag-fato { background: #dcfce7; color: #15803d; }
-    .tag-hipotese { background: #fef3c7; color: #b45309; }
-    .tag-lacuna { background: #fee2e2; color: #b91c1c; }
-
-    @media (max-width: 1024px) {
+    @media (max-width: 1080px) {
       .canvas-container {
         display: flex;
         flex-direction: column;
@@ -266,9 +355,12 @@
 <body>
 
   <header>
-    <div>
-      <h1>Business Model Canvas <span>• Agente Operacional de IA</span></h1>
-      <p>Projeto de Automação & Assistência Técnica Interna via Copilot</p>
+    <div class="header-content">
+      <h1>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Business Model Canvas • Agente de IA
+      </h1>
+      <p>Assistente Operacional Inteligente Integrado ao Ecossistema Corporativo Copilot</p>
     </div>
     <div class="badge-status">
       Submissão Acadêmica & Pitch de Liderança
@@ -279,108 +371,144 @@
     <!-- Parcerias-Chave -->
     <div class="block parcerias" onclick="openDetails('parcerias')">
       <div class="block-header">
-        <span class="block-title">Parcerias-Chave</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          Parcerias-Chave
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Microsoft (Provedor Copilot)</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> TI/Segurança da Informação</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Usuários-piloto para homologação</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Microsoft (Provedor de tecnologia Copilot)</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>TI e Segurança da Informação corporativa</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Usuários-piloto internos para validação ágil</span></li>
       </ul>
     </div>
 
     <!-- Atividades-Chave -->
     <div class="block atividades" onclick="openDetails('atividades')">
       <div class="block-header">
-        <span class="block-title">Atividades-Chave</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Atividades-Chave
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Ingestão contínua de procedimentos</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Auditoria periódica de acurácia</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Calibração via feedback dos pares</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Ingestão contínua de procedimentos operacionais</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Auditoria e monitoramento de acurácia</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Calibração ágil orientada a feedback</span></li>
       </ul>
     </div>
 
     <!-- Proposta de Valor -->
     <div class="block proposta" onclick="openDetails('proposta')">
       <div class="block-header">
-        <span class="block-title">Proposta de Valor</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Proposta de Valor
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Diagnóstico ágil de incidentes operacionais</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Redução de esforço em rotinas repetitivas</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Nivelamento imediato de conceitos técnicos</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Diagnóstico ágil de incidentes operacionais</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Redução substancial de esforço repetitivo</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Nivelamento ágil de conhecimento técnico</span></li>
       </ul>
     </div>
 
     <!-- Relacionamento com Clientes -->
     <div class="block relacionamento" onclick="openDetails('relacionamento')">
       <div class="block-header">
-        <span class="block-title">Relacionamento</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Relacionamento
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Suporte automatizado e veloz</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Mecanismo human-in-the-loop ativo</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Gestão de expectativa contra alucinação</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Suporte automatizado, transparente e veloz</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Supervisão human-in-the-loop ativa</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Gestão de expectativas contra alucinação</span></li>
       </ul>
     </div>
 
     <!-- Segmentos de Clientes -->
     <div class="block segmentos" onclick="openDetails('segmentos')">
       <div class="block-header">
-        <span class="block-title">Segmentos de Clientes</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Segmentos
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Especialistas e analistas da operação direta</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Liderança focada em ganhos de produtividade</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Stakeholders corporativos de TI e Governança</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Analistas e especialistas da operação</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Liderança com foco em produtividade e SLA</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Stakeholders de Governança corporativa</span></li>
       </ul>
     </div>
 
     <!-- Recursos-Chave -->
     <div class="block recursos" onclick="openDetails('recursos')">
       <div class="block-header">
-        <span class="block-title">Recursos-Chave</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          Recursos-Chave
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Licenciamento Microsoft Copilot ativo</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Base curada de regras e documentação</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Tempo do especialista para engenharia de prompt</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Plataforma Microsoft Copilot habilitada</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Base interna curada de regras e procedimentos</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Tempo dedicado para engenharia de prompt</span></li>
       </ul>
     </div>
 
     <!-- Canais -->
     <div class="block canais" onclick="openDetails('canais')">
       <div class="block-header">
-        <span class="block-title">Canais</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Canais
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Ponto focal em software corporativo habitual</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Triagem automática de mensagens de entrada</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Interface sem atrito para consulta de pares</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Ponto focal em ferramentas já existentes</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Triagem e recepção de demandas de entrada</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Fluxo de fallback para incidentes complexos</span></li>
       </ul>
     </div>
 
     <!-- Estrutura de Custos -->
     <div class="block custos" onclick="openDetails('custos')">
       <div class="block-header">
-        <span class="block-title">Estrutura de Custos</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Estrutura de Custos
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Sem custo adicional de desenvolvimento visual</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Consumo de tokens e infraestrutura corporativa</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Custo de oportunidade de horas técnicas na curadoria</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Sem custo adicional de desenvolvimento visual</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Consumo de tokens e infraestrutura absorvidos</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Custo de oportunidade das horas do especialista</span></li>
       </ul>
     </div>
 
     <!-- Fontes de Receita -->
     <div class="block receita" onclick="openDetails('receita')">
       <div class="block-header">
-        <span class="block-title">Fontes de Receita</span>
+        <span class="block-title">
+          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Fontes de Receita (Retorno)
+        </span>
+        <span class="click-hint">Clique p/ detalhes</span>
       </div>
       <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> Captura de valor interno sem repasse financeiro</li>
-        <li><span class="tag tag-hipotese">Hipótese</span> Economia de horas técnicas dedicadas a dúvidas</li>
-        <li><span class="tag tag-lacuna">Lacuna</span> Mitigação mensurável de falhas operacionais</li>
+        <li><span class="tag tag-fato">Fato</span> <span>Captura de valor interno sem cobrança direta</span></li>
+        <li><span class="tag tag-hipotese">Hipótese</span> <span>Economia de horas técnicas em tarefas operacionais</span></li>
+        <li><span class="tag tag-lacuna">Lacuna</span> <span>Mitigação de erros e retrabalho em incidentes</span></li>
       </ul>
     </div>
   </main>
@@ -402,7 +530,7 @@
         title: "Segmentos de Clientes",
         items: [
           "[Fato] Analistas e especialistas operacionais que lidam com incidentes recorrentes diariamente.",
-          "[Hipótese] Gestores imediatos compram a ideia pela promessa de redução de horas e retrabalho.",
+          "[Hipótese] Gestores imediatos apoiam a solução pela promessa de redução de horas e retrabalho.",
           "[Lacuna] Falta formalizar o papel da TI Corporativa como cliente de conformidade e governança."
         ],
         blank: "Validar se o problema é sentido por toda a equipe ou se é uma percepção isolada de quem está desenhando o agente.",
@@ -443,7 +571,7 @@
         action: "Coletar feedback cego de 3 membros do time sobre a precisão de saídas geradas previamente pela IA."
       },
       receita: {
-        title: "Fontes de Receita",
+        title: "Fontes de Receita (Retorno)",
         items: [
           "[Fato] Solução baseada em infraestrutura previamente custeada pela corporação.",
           "[Hipótese] ROI medido através de horas técnicas poupadas e prevenção de incidentes críticos.",
@@ -509,9 +637,9 @@
 
       document.getElementById('modalTitle').textContent = info.title;
 
-      let itemsHtml = '<ul style="margin-left: 18px; margin-bottom: 16px; font-size: 0.9rem;">';
+      let itemsHtml = '<ul style="margin-left: 18px; margin-bottom: 20px; font-size: 0.92rem; color: #334155;">';
       info.items.forEach(it => {
-        itemsHtml += `<li style="margin-bottom: 6px;">${it}</li>`;
+        itemsHtml += `<li style="margin-bottom: 8px;">${it}</li>`;
       });
       itemsHtml += '</ul>';
 
@@ -539,6 +667,10 @@
       document.getElementById('detailModal').classList.remove('active');
       document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
   </script>
 </body>
 </html>
