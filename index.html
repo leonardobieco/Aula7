@@ -3,674 +3,724 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Model Canvas • Agente Operacional de IA</title>
+  <title>NexusCorp AI - Protótipo Corporativo RAG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-surface: #0b1329;
-      --canvas-bg: #f8fafc;
-      --card-bg: #ffffff;
-      --card-border: #e2e8f0;
-      
-      --navy-900: #0a1128;
-      --navy-800: #0f1c3f;
-      --navy-700: #1c2d5a;
-      --navy-600: #253b75;
-      
-      --accent-blue: #0284c7;
-      --accent-cyan: #38bdf8;
-      
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --text-sub: #475569;
-      
-      --tag-fato-bg: #ecfdf5;
-      --tag-fato-text: #047857;
-      --tag-fato-border: #a7f3d0;
-      
-      --tag-hipotese-bg: #fffbeb;
-      --tag-hipotese-text: #b45309;
-      --tag-hipotese-border: #fde68a;
-      
-      --tag-lacuna-bg: #fef2f2;
-      --tag-lacuna-text: #b91c1c;
-      --tag-lacuna-border: #fecaca;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background-color: var(--canvas-bg);
-      color: var(--text-main);
-      padding: 24px 20px 60px 20px;
-      line-height: 1.5;
-    }
-
-    /* Header Corporativo em Azul Escuro */
-    header {
-      max-width: 1400px;
-      margin: 0 auto 28px auto;
-      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 50%, var(--navy-700) 100%);
-      padding: 28px 36px;
-      border-radius: 16px;
-      box-shadow: 0 12px 30px -8px rgba(10, 17, 40, 0.45);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
-      overflow: hidden;
-    }
-
-    header::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(2, 132, 199, 0) 70%);
-      pointer-events: none;
-    }
-
-    .header-content h1 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-content p {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      margin-top: 6px;
-      font-weight: 400;
-    }
-
-    .badge-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      backdrop-filter: blur(8px);
-    }
-
-    .badge-status::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--accent-cyan);
-      box-shadow: 0 0 10px var(--accent-cyan);
-    }
-
-    /* Grid do Business Model Canvas */
-    .canvas-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: auto auto auto;
-      gap: 18px;
-    }
-
-    .block {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 1px solid var(--card-border);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
-    }
-
-    .block:hover {
-      border-color: var(--navy-600);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px -6px rgba(15, 28, 63, 0.14);
-    }
-
-    .block.active {
-      border: 2px solid var(--accent-blue);
-      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
-    }
-
-    .block-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .block-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--navy-700);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .block-icon {
-      width: 22px;
-      height: 22px;
-      color: var(--navy-600);
-    }
-
-    .click-hint {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .block-summary {
-      font-size: 0.86rem;
-      color: var(--text-sub);
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      line-height: 1.45;
-    }
-
-    .block-summary li {
-      list-style-type: none;
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    /* Tags Estratégicas */
-    .tag {
-      display: inline-block;
-      font-size: 0.68rem;
-      padding: 2px 7px;
-      border-radius: 6px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .tag-fato { background: var(--tag-fato-bg); color: var(--tag-fato-text); border: 1px solid var(--tag-fato-border); }
-    .tag-hipotese { background: var(--tag-hipotese-bg); color: var(--tag-hipotese-text); border: 1px solid var(--tag-hipotese-border); }
-    .tag-lacuna { background: var(--tag-lacuna-bg); color: var(--tag-lacuna-text); border: 1px solid var(--tag-lacuna-border); }
-
-    /* Mapeamento de Posições do Canvas */
-    .parcerias { grid-column: span 2; grid-row: 1 / 3; }
-    .atividades { grid-column: span 2; grid-row: 1; }
-    .recursos { grid-column: span 2; grid-row: 2; }
-    .proposta { grid-column: span 2; grid-row: 1 / 3; }
-    .relacionamento { grid-column: span 2; grid-row: 1; }
-    .canais { grid-column: span 2; grid-row: 2; }
-    .segmentos { grid-column: span 2; grid-row: 1 / 3; }
-    .custos { grid-column: span 5; grid-row: 3; }
-    .receita { grid-column: span 5; grid-row: 3; }
-
-    /* Modal de Detalhes e Lentes */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 17, 40, 0.65);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #ffffff;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 660px;
-      padding: 32px;
-      box-shadow: 0 25px 50px -12px rgba(10, 17, 40, 0.35);
-      position: relative;
-      border: 1px solid #e2e8f0;
-      animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.96) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #f1f5f9;
-      border: none;
-      font-size: 1.3rem;
-      cursor: pointer;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .modal-close:hover {
-      background: #e2e8f0;
-      color: var(--text-main);
-    }
-
-    .modal-header {
-      margin-bottom: 20px;
-    }
-
-    .modal-header h2 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--navy-900);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .lens-box {
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    .lens-blank {
-      background: #f0f7ff;
-      border-left: 4px solid #2563eb;
-      color: #1e3a8a;
-    }
-
-    .lens-osterwalder {
-      background: #f0fdf4;
-      border-left: 4px solid #059669;
-      color: #064e3b;
-    }
-
-    .validation-box {
-      background: #fefce8;
-      border-left: 4px solid #d97706;
-      color: #78350f;
-    }
-
-    .lens-title {
-      font-weight: 700;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.88rem;
-    }
-
-    @media (max-width: 1080px) {
-      .canvas-container {
-        display: flex;
-        flex-direction: column;
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            },
+            darkSurface: '#0f172a',
+            darkCard: '#1e293b',
+            darkBorder: '#334155'
+          }
+        }
       }
     }
+  </script>
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .typing-dots span {
+      animation: pulseSoft 1.2s infinite ease-in-out;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
   </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-  <header>
-    <div class="header-content">
-      <h1>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-        Business Model Canvas • Agente de IA
-      </h1>
-      <p>Assistente Operacional Inteligente Integrado ao Ecossistema Corporativo Copilot</p>
+  <header class="border-b border-darkBorder bg-slate-900/90 backdrop-blur sticky top-0 z-30 px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+        <i class="fa-solid fa-brain text-white text-lg"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <h1 class="font-bold text-base md:text-lg text-white tracking-tight">NexusCorp AI</h1>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">MVP v0.8.2</span>
+        </div>
+        <p class="text-xs text-slate-400 hidden sm:block">Assistente de Conhecimento Corporativo & Governança RAG</p>
+      </div>
     </div>
-    <div class="badge-status">
-      Submissão Acadêmica & Pitch de Liderança
+
+    <!-- Security & RBAC Profile simulation -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5">
+        <i class="fa-solid fa-user-shield text-indigo-400 text-xs mr-2"></i>
+        <div class="flex flex-col text-left">
+          <label for="userRoleSelector" class="text-[10px] text-slate-400 uppercase font-semibold">Perfil RBAC Ativo</label>
+          <select id="userRoleSelector" class="bg-transparent text-xs text-slate-200 font-medium focus:outline-none cursor-pointer">
+            <option value="junior" class="bg-slate-800 text-slate-200">Colaborador Júnior (Nível 1)</option>
+            <option value="gestor" class="bg-slate-800 text-slate-200">Gestor de Área (Nível 2)</option>
+            <option value="diretoria" class="bg-slate-800 text-slate-200" selected>Diretor / Jurídico (Nível 3 - Total)</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="toggleAuditBtn" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-chart-line text-indigo-400"></i>
+        <span class="hidden md:inline">Auditoria & Custos</span>
+      </button>
     </div>
   </header>
 
-  <main class="canvas-container">
-    <!-- Parcerias-Chave -->
-    <div class="block parcerias" onclick="openDetails('parcerias')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          Parcerias-Chave
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
-      </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Microsoft (Provedor de tecnologia Copilot)</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>TI e Segurança da Informação corporativa</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Usuários-piloto internos para validação ágil</span></li>
-      </ul>
-    </div>
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-[1700px] w-full mx-auto">
 
-    <!-- Atividades-Chave -->
-    <div class="block atividades" onclick="openDetails('atividades')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-          Atividades-Chave
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+    <!-- Left Sidebar: Knowledge Base & Quick Filters -->
+    <aside class="w-full lg:w-72 bg-slate-900 border-r border-darkBorder flex flex-col p-4 shrink-0 overflow-y-auto">
+      <div class="mb-4">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Base de Conhecimento</span>
+        <div class="mt-2 grid grid-cols-2 lg:grid-cols-1 gap-1.5" id="areaButtons">
+          <button data-area="all" class="area-btn active w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-indigo-600/30 border border-indigo-500/40 text-left transition">
+            <i class="fa-solid fa-layer-group w-4 text-indigo-400"></i>
+            <span>Todas as Bases (6 Áreas)</span>
+          </button>
+          <button data-area="RH" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-users text-rose-400 w-4"></i> RH / Pessoas</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">12 docs</span>
+          </button>
+          <button data-area="Financeiro" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-coins text-emerald-400 w-4"></i> Financeiro</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">Restrito</span>
+          </button>
+          <button data-area="Juridico" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-scale-balanced text-amber-400 w-4"></i> Jurídico & Contratos</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">Sigiloso</span>
+          </button>
+          <button data-area="Comercial" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-chart-pie text-cyan-400 w-4"></i> Comercial & Vendas</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">8 docs</span>
+          </button>
+          <button data-area="TI" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-network-wired text-blue-400 w-4"></i> TI & Infraestrutura</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">19 docs</span>
+          </button>
+          <button data-area="Produtos" class="area-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition">
+            <span class="flex items-center gap-2.5"><i class="fa-solid fa-box-open text-purple-400 w-4"></i> Produtos & Métricas</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">15 docs</span>
+          </button>
+        </div>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Ingestão contínua de procedimentos operacionais</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Auditoria e monitoramento de acurácia</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Calibração ágil orientada a feedback</span></li>
-      </ul>
-    </div>
 
-    <!-- Proposta de Valor -->
-    <div class="block proposta" onclick="openDetails('proposta')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Proposta de Valor
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+      <!-- Quick prompts for practical testing -->
+      <div class="mt-auto pt-3 border-t border-slate-800">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Testes Rápidos Sugeridos</span>
+        <div class="space-y-1.5">
+          <button class="quick-question-btn w-full text-left text-[11px] p-2 rounded bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60 transition leading-snug">
+            🏖️ "Como funciona a aprovação de férias e abono?"
+          </button>
+          <button class="quick-question-btn w-full text-left text-[11px] p-2 rounded bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60 transition leading-snug">
+            📜 "Posso aprovar contrato acima de R$ 50 mil?"
+          </button>
+          <button class="quick-question-btn w-full text-left text-[11px] p-2 rounded bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60 transition leading-snug">
+            📈 "Quais são as margens de lucro dos novos planos?"
+          </button>
+          <button class="quick-question-btn w-full text-left text-[11px] p-2 rounded bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60 transition leading-snug">
+            💻 "Qual o SLA para troca de notebook em TI?"
+          </button>
+        </div>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Diagnóstico ágil de incidentes operacionais</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Redução substancial de esforço repetitivo</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Nivelamento ágil de conhecimento técnico</span></li>
-      </ul>
-    </div>
+    </aside>
 
-    <!-- Relacionamento com Clientes -->
-    <div class="block relacionamento" onclick="openDetails('relacionamento')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Relacionamento
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+    <main class="flex-1 flex flex-col bg-slate-950 min-w-0 h-[650px] lg:h-auto">
+      
+      <!-- Current Status Bar -->
+      <div class="bg-slate-900/50 border-b border-darkBorder px-4 py-2 flex items-center justify-between text-xs text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Modelo ativo: <strong class="text-slate-200">Claude-3.5 Sonnet + RAG Híbrido</strong></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="targetAreaBadge" class="bg-indigo-900/40 text-indigo-300 border border-indigo-700/50 px-2 py-0.5 rounded text-[11px]">Escopo: Global</span>
+          <button onclick="clearChat()" class="hover:text-slate-200 text-slate-400 transition" title="Limpar conversa">
+            <i class="fa-solid fa-trash-can mr-1"></i> Reiniciar
+          </button>
+        </div>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Suporte automatizado, transparente e veloz</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Supervisão human-in-the-loop ativa</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Gestão de expectativas contra alucinação</span></li>
-      </ul>
-    </div>
 
-    <!-- Segmentos de Clientes -->
-    <div class="block segmentos" onclick="openDetails('segmentos')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Segmentos
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
-      </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Analistas e especialistas da operação</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Liderança com foco em produtividade e SLA</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Stakeholders de Governança corporativa</span></li>
-      </ul>
-    </div>
+      <!-- Messages container -->
+      <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+        
+        <!-- Welcome Message -->
+        <div class="flex gap-3 max-w-3xl">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center shrink-0 text-indigo-400">
+            <i class="fa-solid fa-robot text-sm"></i>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 shadow-md">
+            <p class="font-medium text-indigo-300 mb-1">Olá! Sou o Assistente Corporativo NexusCorp.</p>
+            <p class="text-slate-300 leading-relaxed">
+              Consulte políticas, processos, cláusulas contratuais e indicadores das 6 áreas de negócio. Todas as respostas contêm <strong>citação auditável das fontes</strong> e respeitam o seu perfil de acesso RBAC.
+            </p>
+            <div class="mt-3 pt-3 border-t border-slate-800/80 text-xs text-slate-400 flex items-center gap-2">
+              <i class="fa-solid fa-circle-info text-indigo-400"></i>
+              <span>Dica: Alterne o perfil de usuário no topo para testar as travas de segurança e confidencialidade.</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- Recursos-Chave -->
-    <div class="block recursos" onclick="openDetails('recursos')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-          Recursos-Chave
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Plataforma Microsoft Copilot habilitada</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Base interna curada de regras e procedimentos</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Tempo dedicado para engenharia de prompt</span></li>
-      </ul>
-    </div>
 
-    <!-- Canais -->
-    <div class="block canais" onclick="openDetails('canais')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Canais
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+      <!-- Typing Indicator -->
+      <div id="typingIndicator" class="hidden px-6 py-2">
+        <div class="flex items-center gap-2 text-xs text-indigo-400 typing-dots">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <span>Agente RAG recuperando vetores e gerando resposta...</span>
+        </div>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Ponto focal em ferramentas já existentes</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Triagem e recepção de demandas de entrada</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Fluxo de fallback para incidentes complexos</span></li>
-      </ul>
-    </div>
 
-    <!-- Estrutura de Custos -->
-    <div class="block custos" onclick="openDetails('custos')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          Estrutura de Custos
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+      <!-- Chat input area -->
+      <div class="p-3 md:p-4 bg-slate-900 border-t border-darkBorder">
+        <form id="chatForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div class="relative flex-1">
+            <input 
+              type="text" 
+              id="userInput" 
+              placeholder="Pergunte sobre políticas, contratos, métricas, TI ou RH..." 
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition pr-10"
+              autocomplete="off"
+            />
+            <button type="button" onclick="insertSampleQuery()" class="absolute right-3 top-3 text-slate-500 hover:text-indigo-400 text-xs" title="Inserir pergunta de exemplo">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+          </div>
+          <button 
+            type="submit" 
+            class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-indigo-600/30 cursor-pointer"
+          >
+            <span>Consultar</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+        <p class="text-[11px] text-slate-500 text-center mt-2">
+          As respostas são baseadas exclusivamente nas bases internas homologadas. Sujeito a auditoria de conformidade.
+        </p>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Sem custo adicional de desenvolvimento visual</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Consumo de tokens e infraestrutura absorvidos</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Custo de oportunidade das horas do especialista</span></li>
-      </ul>
-    </div>
+    </main>
 
-    <!-- Fontes de Receita -->
-    <div class="block receita" onclick="openDetails('receita')">
-      <div class="block-header">
-        <span class="block-title">
-          <svg class="block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          Fontes de Receita (Retorno)
-        </span>
-        <span class="click-hint">Clique p/ detalhes</span>
+    <aside id="auditSidebar" class="w-full lg:w-80 bg-slate-900 border-l border-darkBorder flex flex-col p-4 shrink-0 overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Auditoria & Telemetria</h2>
+        </div>
+        <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">Em tempo real</span>
       </div>
-      <ul class="block-summary">
-        <li><span class="tag tag-fato">Fato</span> <span>Captura de valor interno sem cobrança direta</span></li>
-        <li><span class="tag tag-hipotese">Hipótese</span> <span>Economia de horas técnicas em tarefas operacionais</span></li>
-        <li><span class="tag tag-lacuna">Lacuna</span> <span>Mitigação de erros e retrabalho em incidentes</span></li>
-      </ul>
-    </div>
-  </main>
 
-  <!-- Modal Detalhado -->
-  <div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-      <div class="modal-header">
-        <h2 id="modalTitle">Detalhes do Bloco</h2>
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-2 gap-2 my-4">
+        <div class="bg-slate-800/60 p-2.5 rounded-lg border border-slate-700/60">
+          <span class="text-[10px] text-slate-400 block">Tokens Última Req.</span>
+          <span id="metricTokens" class="text-lg font-bold text-slate-100">0</span>
+          <span class="text-[9px] text-slate-500">Prompt + Comp</span>
+        </div>
+        <div class="bg-slate-800/60 p-2.5 rounded-lg border border-slate-700/60">
+          <span class="text-[10px] text-slate-400 block">Custo Estimado</span>
+          <span id="metricCost" class="text-lg font-bold text-emerald-400">$0.000</span>
+          <span class="text-[9px] text-slate-500">Claude 3.5 Tier</span>
+        </div>
+        <div class="bg-slate-800/60 p-2.5 rounded-lg border border-slate-700/60">
+          <span class="text-[10px] text-slate-400 block">Latência RAG</span>
+          <span id="metricLatency" class="text-lg font-bold text-indigo-400">0 ms</span>
+          <span class="text-[9px] text-slate-500">Busca Vetorial</span>
+        </div>
+        <div class="bg-slate-800/60 p-2.5 rounded-lg border border-slate-700/60">
+          <span class="text-[10px] text-slate-400 block">Verificação RBAC</span>
+          <span id="metricRBAC" class="text-xs font-semibold text-emerald-400 mt-1 block">Conforme</span>
+          <span class="text-[9px] text-slate-500">Zero Trust Filter</span>
+        </div>
       </div>
-      <div id="modalBody"></div>
-    </div>
+
+      <!-- Real-time audit log list -->
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Histórico de Auditoria</span>
+          <span class="text-[10px] text-indigo-400">Audit Vault v2</span>
+        </div>
+        <div id="auditLogList" class="space-y-2 text-xs">
+          <div class="p-2 rounded bg-slate-950/70 border border-slate-800 text-slate-400 text-[11px]">
+            <div class="flex justify-between text-[10px] text-slate-500 mb-1">
+              <span>BOOT_SYSTEM</span>
+              <span>Hoje</span>
+            </div>
+            <p>Sessão iniciada. Diretiva de conformidade ativa para 2.000 nós.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Human Escalation Modal / Notification -->
+      <div class="mt-4 pt-3 border-t border-slate-800">
+        <div class="bg-indigo-950/40 border border-indigo-800/40 p-3 rounded-xl">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-headset text-indigo-400 mt-0.5"></i>
+            <div>
+              <p class="text-xs font-medium text-indigo-200">Suporte Humano de Segundo Nível</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Caso o assistente não solucione ou exija homologação especial.</p>
+            </div>
+          </div>
+          <button onclick="requestHumanEscalation('Geral')" class="w-full mt-2.5 bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-700/40 py-1.5 rounded-lg text-xs font-medium transition flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-paper-plane text-[10px]"></i> Abrir Chamado com Especialista
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 border border-indigo-500 text-white px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3 transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-sm" id="toastIcon"></i>
+    <span id="toastMessage">Operação realizada com sucesso.</span>
   </div>
 
   <script>
-    const data = {
-      segmentos: {
-        title: "Segmentos de Clientes",
-        items: [
-          "[Fato] Analistas e especialistas operacionais que lidam com incidentes recorrentes diariamente.",
-          "[Hipótese] Gestores imediatos apoiam a solução pela promessa de redução de horas e retrabalho.",
-          "[Lacuna] Falta formalizar o papel da TI Corporativa como cliente de conformidade e governança."
-        ],
-        blank: "Validar se o problema é sentido por toda a equipe ou se é uma percepção isolada de quem está desenhando o agente.",
-        osterwalder: "Diferenciar claramente o 'usuário final' (analista) do 'decisor de permanência' (gestor da área).",
-        action: "Entrevistar 3 analistas do time sobre os três maiores nós diários de comunicação técnica."
+    // Knowledge Base Documents with RBAC Clearance Levels:
+    // Level 1: junior, gestor, diretoria
+    // Level 2: gestor, diretoria
+    // Level 3: diretoria only
+    const KNOWLEDGE_BASE = [
+      {
+        id: "RH-001",
+        area: "RH",
+        title: "Política Interna de Férias e Abono Pecuniário",
+        sourceDoc: "Manual do Colaborador 2024 - Seção 4.2",
+        minLevel: 1, // All can view
+        keywords: ["férias", "abono", "descanso", "solicitar férias", "prazo de férias", "recesso"],
+        summary: "As férias devem ser solicitadas no portal de RH com antecedência mínima de 30 dias. O colaborador pode converter até 1/3 (dez dias) do período em abono pecuniário (venda de férias), desde que solicitado até 15 dias antes do início do período aquisitivo.",
+        snippet: "Documento Oficial RH-POL-04: 'A concessão das férias fica condicionada à escala do departamento, sendo obrigatório que ao menos um dos períodos não seja inferior a 14 dias corridos.'"
       },
-      proposta: {
-        title: "Proposta de Valor",
-        items: [
-          "[Fato] Resolução acelerada de dúvidas técnicas e procedimentos padronizados.",
-          "[Hipótese] Redução de tempo operacional gasto em triagem de incidentes repetitivos.",
-          "[Lacuna] Como auditar a acurácia sem criar dependência cega da equipe na ferramenta."
-        ],
-        blank: "O valor real está no resultado entregue (fechamento rápido do chamado), não na conversa com o bot.",
-        osterwalder: "Balancear geradores de ganhos (autonomia técnica da equipe) e aliviadores de dor (eliminação de retrabalho).",
-        action: "Medir o tempo médio gasto atualmente para esclarecer uma regra não documentada sem a IA."
+      {
+        id: "JUR-002",
+        area: "Juridico",
+        title: "Regulamento de Alçadas e Assinatura de Contratos Comerciais",
+        sourceDoc: "Diretriz Jurídica DJ-08 - Tabela de Alçadas",
+        minLevel: 2, // Gestores and Directors only
+        keywords: ["contrato", "aprovar contrato", "alçada", "50 mil", "50k", "assinatura", "jurídico"],
+        summary: "Contratos de até R$ 20.000 podem ser aprovados por Coordenadores. Contratos entre R$ 20.001 e R$ 100.000 exigem aprovação do Gestor da área e parecer padrão do Jurídico. Valores acima de R$ 100.000 requerem validação conjunta do Diretor Executivo e parecer formal do Jurídico Corporativo.",
+        snippet: "DJ-08 § 3º: 'É expressamente vedado o fracionamento de notas fiscais ou contratos com o objetivo de burlar as alçadas de aprovação estipuladas nesta norma.'"
       },
-      canais: {
-        title: "Canais",
-        items: [
-          "[Fato] Ponto de contato único dentro da plataforma de colaboração corporativa já ativa.",
-          "[Hipótese] A equipe aceitará concentrar todas as entradas via agente em vez do contato direto pessoal.",
-          "[Lacuna] Mecanismo de fallback caso o agente apresente instabilidade ou resposta imprecisa."
-        ],
-        blank: "Se a interface for trabalhosa ou exigir muitos cliques, as pessoas vão voltar a te acionar direto.",
-        osterwalder: "Garantir presença fluida em todas as fases: descoberta, avaliação, consulta e suporte.",
-        action: "Atuar como 'IA oculta' em 5 demandas via canal atual para validar o formato das respostas antes de lançar o bot."
+      {
+        id: "FIN-003",
+        area: "Financeiro",
+        title: "Margens de Contribuição e Relatório de DRE Estratégico",
+        sourceDoc: "Demonstrativo Gerencial Confidencial Q3",
+        minLevel: 3, // Diretoria only
+        keywords: ["margem", "margens", "lucro", "dre", "ebitda", "financeiro", "indicadores", "novos planos"],
+        summary: "A margem bruta média consolidada do trimestre atingiu 58,4%. Os novos planos corporativos possuem margem de contribuição de 62%, enquanto as contas de legado operam com margem líquida ajustada de 18,2% devido aos custos de servidores legados.",
+        snippet: "FIN-CONF-2024: 'Informação restrita à Diretoria Executiva e Conselho. Divulgação externa ou interna não autorizada constitui violação de sigilo profissional.'"
       },
-      relacionamento: {
-        title: "Relacionamento com Clientes",
-        items: [
-          "[Fato] Interações automatizadas com respostas contextuais orientadas à rotina.",
-          "[Hipótese] A equipe manterá engajamento contínuo sugerindo melhorias na base.",
-          "[Lacuna] Diretrizes transparentes para os casos em que a IA alucinar ou não souber a resposta."
-        ],
-        blank: "A primeira alucinação em produção pode quebrar permanentemente a credibilidade do projeto com o time.",
-        osterwalder: "Adotar o modelo de serviço automatizado assistido (Human-in-the-loop) para resguardar a confiança.",
-        action: "Coletar feedback cego de 3 membros do time sobre a precisão de saídas geradas previamente pela IA."
+      {
+        id: "TI-004",
+        area: "TI",
+        title: "SLA de Suporte Técnico e Política de Renovação de Equipamentos",
+        sourceDoc: "Catálogo de Serviços de TI - Versão 3.1",
+        minLevel: 1, // All can view
+        keywords: ["sla", "ti", "notebook", "computador", "chamado", "troca de notebook", "suporte"],
+        summary: "O SLA para troca de máquinas danificadas com garantia ativa é de até 48 horas úteis para capitais e 72 horas para demais localidades. A substituição preventiva por ciclo de vida ocorre a cada 36 meses.",
+        snippet: "TI-SLA-03: 'Prioridade Alta (Incidente Crítico com parada de operação): Primeiro atendimento em até 30 minutos; resolução provisória em até 4 horas.'"
       },
-      receita: {
-        title: "Fontes de Receita (Retorno)",
-        items: [
-          "[Fato] Solução baseada em infraestrutura previamente custeada pela corporação.",
-          "[Hipótese] ROI medido através de horas técnicas poupadas e prevenção de incidentes críticos.",
-          "[Lacuna] Métrica clara e aceita pela liderança para defender a continuidade da solução."
-        ],
-        blank: "A moeda de troca corporativa é a atenção dos analistas e o apoio político dos gestores.",
-        osterwalder: "A sustentabilidade do projeto depende da justificativa contínua do uso de tokens e horas.",
-        action: "Apresentar a estimativa de horas poupadas em uma reunião piloto com o gestor direto."
+      {
+        id: "COM-005",
+        area: "Comercial",
+        title: "Tabela de Comissionamento e Regras de Desconto",
+        sourceDoc: "Guia de Políticas Comerciais 2024",
+        minLevel: 2, // Gestores and Directors
+        keywords: ["comercial", "desconto", "vendas", "comissão", "proposta", "tabela"],
+        summary: "Executivos de vendas têm autonomia para conceder descontos de até 8% em propostas anuais. Descontos entre 8,1% e 15% necessitam de aprovação do Gestor Comercial. Descontos superiores a 15% requerem aprovação formal da Diretoria Comercial.",
+        snippet: "COM-POL-24: 'O acelerador de comissão de 120% sobre o atingimento de meta só é elegível para contratos sem concessão de desconto superior a 5%.'"
       },
-      recursos: {
-        title: "Recursos-Chave",
-        items: [
-          "[Fato] Ecossistema Microsoft Copilot disponível no ambiente de trabalho.",
-          "[Hipótese] Existência de repositório estruturado e confiável com a base técnica.",
-          "[Lacuna] Disponibilidade de agenda técnica para manter e recalibrar os prompts."
-        ],
-        blank: "Sem curadoria crítica feita por especialistas humanos, o agente apenas distribui ruído mais rápido.",
-        osterwalder: "O recurso proprietário não é o Copilot (comoditizado), mas a base de conhecimento interna.",
-        action: "Organizar e carregar 3 manuais mais acessados no ambiente de testes para checar as respostas."
-      },
-      atividades: {
-        title: "Atividades-Chave",
-        items: [
-          "[Fato] Atualização e alimentação contínua de procedimentos no repositório de dados.",
-          "[Hipótese] Monitoramento semanal das métricas de acurácia e satisfação interna.",
-          "[Lacuna] Governança de versionamento para regras de negócio descontinuadas."
-        ],
-        blank: "Ajustar o comportamento a partir dos erros do usuário é mais crítico do que apenas subir arquivos.",
-        osterwalder: "Integrar curadoria de dados, refinamento de prompts e ciclo fechado de resolução técnica.",
-        action: "Definir um slot semanal fixo de 20 minutos para saneamento e atualização dos documentos da base."
-      },
-      parcerias: {
-        title: "Parcerias-Chave",
-        items: [
-          "[Fato] Microsoft como provedor de tecnologia de modelos e infraestrutura corporativa.",
-          "[Hipótese] Apoio irrestrito da área de Segurança e Governança da Informação.",
-          "[Lacuna] Engajamento explícito de early adopters internos dispostos a testar e reportar falhas."
-        ],
-        blank: "Parceiros internos são o oxigênio: se os colegas não comprarem a ideia, a ferramenta vira elefante branco.",
-        osterwalder: "Mapear a conformidade de dados para evitar bloqueios repentinos por auditoria interna.",
-        action: "Consultar formalmente o time de TI/Segurança sobre regras de confidencialidade na ingestão interna."
-      },
-      custos: {
-        title: "Estrutura de Custos",
-        items: [
-          "[Fato] Inexistência de investimento em desenvolvimento de interface visual customizada.",
-          "[Hipótese] Consumo de licenças e capacidade de processamento absorvidos pela organização.",
-          "[Lacuna] Quantificação exata das horas gastas no suporte manual e na manutenção contínua."
-        ],
-        blank: "O maior custo invisível é o custo de oportunidade do tempo investido pelo especialista que o constrói.",
-        osterwalder: "Controlar a complexidade da orquestração para evitar custos ocultos de manutenção técnica.",
-        action: "Cronometrar o tempo investido na primeira semana de parametrização e testes para reportar ao gestor."
+      {
+        id: "PRD-006",
+        area: "Produtos",
+        title: "Roadmap e Métricas de Retenção de Clientes (Churn & LTV)",
+        sourceDoc: "Product Metrics Dashboard & Roadmap Q4",
+        minLevel: 2, // Gestor and Director
+        keywords: ["produto", "churn", "ltv", "roadmap", "features", "produtos", "métricas"],
+        summary: "A taxa de Churn voluntário no último mês foi reduzida para 1,8% após a implementação do novo fluxo de onboarding. O LTV atual projetado é de R$ 42.500 por conta Enterprise, com foco no lançamento do módulo de automação em IA no próximo trimestre.",
+        snippet: "PRD-DOC-99: 'Metas prioritárias: Atingir NPS 75 no módulo analítico e reduzir o tempo médio de ativação para menos de 4 dias úteis.'"
       }
-    };
+    ];
 
-    function openDetails(blockKey) {
-      const info = data[blockKey];
-      if (!info) return;
+    // State management
+    let currentRole = "diretoria"; // "junior", "gestor", "diretoria"
+    let currentFilterArea = "all";
+    let auditCounter = 101;
+    let totalTokensAccumulated = 0;
 
-      document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
-      const activeEl = document.querySelector(`.${blockKey}`);
-      if (activeEl) activeEl.classList.add('active');
+    // Helper: Role Level converter
+    function getRoleLevel(role) {
+      if (role === 'junior') return 1;
+      if (role === 'gestor') return 2;
+      return 3; // diretoria
+    }
 
-      document.getElementById('modalTitle').textContent = info.title;
+    document.addEventListener("DOMContentLoaded", () => {
+      const roleSelect = document.getElementById("userRoleSelector");
+      const chatForm = document.getElementById("chatForm");
+      const userInput = document.getElementById("userInput");
+      const areaButtons = document.querySelectorAll(".area-btn");
+      const quickBtns = document.querySelectorAll(".quick-question-btn");
 
-      let itemsHtml = '<ul style="margin-left: 18px; margin-bottom: 20px; font-size: 0.92rem; color: #334155;">';
-      info.items.forEach(it => {
-        itemsHtml += `<li style="margin-bottom: 8px;">${it}</li>`;
+      // Role selector change
+      roleSelect.addEventListener("change", (e) => {
+        currentRole = e.target.value;
+        const roleNames = {
+          junior: "Colaborador Júnior (Nível 1)",
+          gestor: "Gestor de Área (Nível 2)",
+          diretoria: "Diretor / Jurídico (Nível 3 - Total)"
+        };
+        showToast(`Perfil alterado para: ${roleNames[currentRole]}`, "shield");
+        logAuditEvent("RBAC_SWITCH", `Perfil alterado para ${currentRole.toUpperCase()}`);
       });
-      itemsHtml += '</ul>';
 
-      const content = `
-        ${itemsHtml}
-        <div class="lens-box lens-blank">
-          <div class="lens-title">💡 Lente de Descoberta (Steve Blank)</div>
-          <div>${info.blank}</div>
+      // Area filter clicks
+      areaButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          areaButtons.forEach(b => {
+            b.classList.remove("active", "bg-indigo-600/30", "border-indigo-500/40", "text-white");
+            b.classList.add("text-slate-300");
+          });
+          btn.classList.add("active", "bg-indigo-600/30", "border-indigo-500/40", "text-white");
+          
+          currentFilterArea = btn.getAttribute("data-area");
+          const targetBadge = document.getElementById("targetAreaBadge");
+          targetBadge.textContent = currentFilterArea === "all" ? "Escopo: Global" : `Escopo: ${currentFilterArea}`;
+          showToast(`Filtro de busca RAG: ${currentFilterArea === 'all' ? 'Todas as Áreas' : currentFilterArea}`);
+        });
+      });
+
+      // Quick question click
+      quickBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const cleanText = btn.innerText.replace(/^[^\"]*\"|\"[^\"]*$/g, '');
+          userInput.value = cleanText;
+          userInput.focus();
+        });
+      });
+
+      // Form submit
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const query = userInput.value.trim();
+        if (!query) return;
+
+        handleUserMessage(query);
+        userInput.value = "";
+      });
+
+      // Toggle audit panel on smaller screens
+      const toggleAuditBtn = document.getElementById("toggleAuditBtn");
+      const auditSidebar = document.getElementById("auditSidebar");
+      toggleAuditBtn.addEventListener("click", () => {
+        auditSidebar.classList.toggle("hidden");
+        if (!auditSidebar.classList.contains("hidden")) {
+          auditSidebar.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    function handleUserMessage(query) {
+      const messagesContainer = document.getElementById("messagesContainer");
+      const typingIndicator = document.getElementById("typingIndicator");
+
+      // Append user bubble
+      appendMessageBubble('user', query);
+
+      // Show typing indicator
+      typingIndicator.classList.remove("hidden");
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      const startTime = performance.now();
+
+      // Simulate RAG retrieval latency (450ms - 900ms)
+      setTimeout(() => {
+        typingIndicator.classList.add("hidden");
+
+        // RAG search matching
+        const normalizedQuery = query.toLowerCase();
+        let matches = KNOWLEDGE_BASE.filter(doc => {
+          // Area filter check
+          if (currentFilterArea !== "all" && doc.area !== currentFilterArea) {
+            return false;
+          }
+          // Keyword match
+          return doc.keywords.some(k => normalizedQuery.includes(k)) || 
+                 normalizedQuery.includes(doc.area.toLowerCase()) ||
+                 doc.title.toLowerCase().includes(normalizedQuery);
+        });
+
+        const userLevel = getRoleLevel(currentRole);
+        const endTime = performance.now();
+        const latency = Math.round(endTime - startTime) + 380; // realistic token processing time
+
+        if (matches.length === 0) {
+          // Generic response when no exact doc matches
+          const fallbackText = "Não localizei uma política interna ou indicador correspondente na base homologada para os termos informados. Por favor, verifique a ortografia ou utilize uma das 6 áreas temáticas (RH, Financeiro, Jurídico, Comercial, TI e Produtos).";
+          appendMessageBubble('ai', fallbackText, null, false);
+          recordTelemetry(120, latency, "NENHUMA_BASE", true);
+          return;
+        }
+
+        const topDoc = matches[0];
+        const isAuthorized = userLevel >= topDoc.minLevel;
+
+        if (!isAuthorized) {
+          // Security / RBAC Block event
+          const denialText = `
+            <div class="border-l-4 border-amber-500 pl-3 py-1">
+              <strong class="text-amber-400 flex items-center gap-1.5 text-sm">
+                <i class="fa-solid fa-triangle-exclamation"></i> Acesso Restrito pela Política RBAC
+              </strong>
+              <p class="mt-1 text-slate-300">
+                O documento localizado (<strong>${topDoc.title}</strong> - Área <em>${topDoc.area}</em>) exige nível de credencial <strong>Nível ${topDoc.minLevel}</strong>. 
+                Seu perfil atual (<strong>${currentRole.toUpperCase()}</strong>) não possui permissão de leitura para estes dados confidenciais.
+              </p>
+              <div class="mt-3 flex items-center gap-2">
+                <button onclick="requestHumanEscalation('${topDoc.area}')" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded text-xs transition">
+                  <i class="fa-solid fa-lock-open mr-1"></i> Solicitar Acesso à Área Responsável
+                </button>
+              </div>
+            </div>
+          `;
+          appendMessageBubble('ai', denialText, null, false, true);
+          recordTelemetry(85, latency, topDoc.area, false, true);
+          logAuditEvent("ACESSO_NEGADO", `Tentativa de consulta não autorizada ao doc: ${topDoc.id} pelo perfil ${currentRole.toUpperCase()}`);
+          return;
+        }
+
+        // Authorized response with RAG Citation
+        const responseHTML = `
+          <div class="space-y-3">
+            <p class="leading-relaxed text-slate-200">${topDoc.summary}</p>
+            
+            <!-- Citation & Traceability Box -->
+            <div class="mt-3 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs">
+              <div class="flex items-center justify-between text-indigo-400 font-semibold mb-1">
+                <span class="flex items-center gap-1.5">
+                  <i class="fa-solid fa-quote-left text-[10px]"></i>
+                  Fonte Homologada: ${topDoc.sourceDoc}
+                </span>
+                <span class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800 text-indigo-300">ID: ${topDoc.id}</span>
+              </div>
+              <blockquote class="italic text-slate-400 border-l-2 border-indigo-500/50 pl-2 mt-1.5 py-0.5">
+                "${topDoc.snippet}"
+              </blockquote>
+            </div>
+
+            <!-- Feedback & Human in the loop buttons -->
+            <div class="flex flex-wrap items-center justify-between pt-2 border-t border-slate-800/80 text-xs text-slate-400 gap-2">
+              <div class="flex items-center gap-2">
+                <span>Esta resposta foi útil?</span>
+                <button onclick="submitFeedback(this, true)" class="hover:text-emerald-400 px-1.5 py-0.5 rounded hover:bg-slate-800 transition" title="Útil">
+                  <i class="fa-regular fa-thumbs-up"></i>
+                </button>
+                <button onclick="submitFeedback(this, false)" class="hover:text-rose-400 px-1.5 py-0.5 rounded hover:bg-slate-800 transition" title="Não útil / Erro">
+                  <i class="fa-regular fa-thumbs-down"></i>
+                </button>
+              </div>
+              <button onclick="requestHumanEscalation('${topDoc.area}')" class="text-slate-400 hover:text-indigo-300 text-[11px] flex items-center gap-1">
+                <i class="fa-solid fa-user-tie"></i> Falar com especialista de ${topDoc.area}
+              </button>
+            </div>
+          </div>
+        `;
+
+        appendMessageBubble('ai', responseHTML, topDoc);
+        
+        // Calculate mock tokens
+        const tokensEstimated = Math.floor(query.length / 4) + Math.floor(topDoc.summary.length / 3) + 210;
+        recordTelemetry(tokensEstimated, latency, topDoc.area, true, false);
+        logAuditEvent("QUERY_SUCCESS", `Consulta autorizada doc ${topDoc.id} (${topDoc.area})`);
+
+      }, 650);
+    }
+
+    function appendMessageBubble(sender, content, doc = null, isRawHtml = true, isWarning = false) {
+      const container = document.getElementById("messagesContainer");
+      const wrapper = document.createElement("div");
+      wrapper.className = `flex gap-3 max-w-3xl ${sender === 'user' ? 'ml-auto justify-end' : ''}`;
+
+      if (sender === 'user') {
+        wrapper.innerHTML = `
+          <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-sm p-3.5 text-sm shadow-md max-w-xl">
+            <p>${escapeHtml(content)}</p>
+          </div>
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center shrink-0 text-indigo-300">
+            <i class="fa-solid fa-user text-xs"></i>
+          </div>
+        `;
+      } else {
+        const borderClass = isWarning ? 'border-amber-500/40 bg-amber-950/20' : 'border-slate-800 bg-slate-900';
+        wrapper.innerHTML = `
+          <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center shrink-0 text-indigo-400">
+            <i class="fa-solid fa-robot text-sm"></i>
+          </div>
+          <div class="${borderClass} border rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 shadow-md flex-1">
+            ${content}
+          </div>
+        `;
+      }
+
+      container.appendChild(wrapper);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function recordTelemetry(tokens, latencyMs, area, isSuccess, isSecurityBlock = false) {
+      totalTokensAccumulated += tokens;
+      document.getElementById("metricTokens").textContent = totalTokensAccumulated;
+      
+      // Cost formula: ~$3 / 1M tokens combined Claude 3.5 Sonnet tier
+      const cost = (totalTokensAccumulated / 1000000) * 3.0;
+      document.getElementById("metricCost").textContent = `$${cost.toFixed(4)}`;
+      document.getElementById("metricLatency").textContent = `${latencyMs} ms`;
+
+      const rbacElement = document.getElementById("metricRBAC");
+      if (isSecurityBlock) {
+        rbacElement.textContent = "Bloqueio RBAC";
+        rbacElement.className = "text-xs font-semibold text-amber-400 mt-1 block";
+      } else {
+        rbacElement.textContent = "Conforme";
+        rbacElement.className = "text-xs font-semibold text-emerald-400 mt-1 block";
+      }
+    }
+
+    function logAuditEvent(action, detail) {
+      const list = document.getElementById("auditLogList");
+      auditCounter++;
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      
+      const item = document.createElement("div");
+      item.className = "p-2 rounded bg-slate-950/70 border border-slate-800 text-slate-400 text-[11px] transition";
+      
+      const color = action.includes("NEGADO") ? "text-rose-400" : (action.includes("SWITCH") ? "text-indigo-400" : "text-emerald-400");
+
+      item.innerHTML = `
+        <div class="flex justify-between text-[10px] text-slate-500 mb-1">
+          <span class="font-mono ${color}">#${auditCounter} ${action}</span>
+          <span>${timeStr}</span>
         </div>
-        <div class="lens-box lens-osterwalder">
-          <div class="lens-title">⚖️ Lente de Coerência (Alexander Osterwalder)</div>
-          <div>${info.osterwalder}</div>
-        </div>
-        <div class="lens-box validation-box">
-          <div class="lens-title">🎯 Ação de Validação Imediata</div>
-          <div>${info.action}</div>
-        </div>
+        <p class="text-slate-300 leading-tight">${detail}</p>
       `;
 
-      document.getElementById('modalBody').innerHTML = content;
-      document.getElementById('detailModal').classList.add('active');
+      list.prepend(item);
     }
 
-    function closeModal(e) {
-      document.getElementById('detailModal').classList.remove('active');
-      document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
+    // Feedback Handler
+    window.submitFeedback = function(btnElement, isPositive) {
+      const parent = btnElement.parentElement;
+      parent.innerHTML = isPositive 
+        ? `<span class="text-emerald-400 text-[11px]"><i class="fa-solid fa-check"></i> Obrigado pelo feedback!</span>`
+        : `<span class="text-rose-400 text-[11px]"><i class="fa-solid fa-flag"></i> Feedback anotado para calibração.</span>`;
+      
+      showToast(isPositive ? "Avaliação positiva registrada" : "Apontamento enviado para o time de IA");
+      logAuditEvent("USER_FEEDBACK", `Avaliação ${isPositive ? 'Positiva' : 'Negativa'} registrada.`);
+    };
+
+    // Human Escalation Handler
+    window.requestHumanEscalation = function(area) {
+      const ticketId = 'INC-' + Math.floor(100000 + Math.random() * 900000);
+      showToast(`Chamado ${ticketId} aberto com o time de ${area}!`, "headset");
+      logAuditEvent("HUMAN_ESCALATION", `Chamado ${ticketId} atribuído à fila humana de ${area}`);
+    };
+
+    // Helper: Reset chat
+    window.clearChat = function() {
+      const container = document.getElementById("messagesContainer");
+      container.innerHTML = `
+        <div class="flex gap-3 max-w-3xl">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center shrink-0 text-indigo-400">
+            <i class="fa-solid fa-robot text-sm"></i>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 shadow-md">
+            <p class="font-medium text-indigo-300 mb-1">Conversa reiniciada.</p>
+            <p class="text-slate-300 leading-relaxed">
+              O histórico anterior foi arquivado na trilha de auditoria. Faça uma nova pergunta técnica ou administrativa.
+            </p>
+          </div>
+        </div>
+      `;
+      showToast("Histórico de conversa reiniciado.");
+      logAuditEvent("CHAT_RESET", "Histórico de diálogo reiniciado pelo operador");
+    };
+
+    // Helper: sample query quick fill
+    window.insertSampleQuery = function() {
+      const samples = [
+        "Quais as regras para venda de férias?",
+        "Qual a margem dos novos planos financeiros?",
+        "Qual o prazo de atendimento para substituição de notebook?",
+        "Posso assinar um contrato de R$ 80.000 como gestor?"
+      ];
+      const pick = samples[Math.floor(Math.random() * samples.length)];
+      const input = document.getElementById("userInput");
+      input.value = pick;
+      input.focus();
+    };
+
+    // Helper: Show Toast
+    function showToast(message, iconType = "check") {
+      const toast = document.getElementById("toast");
+      const msg = document.getElementById("toastMessage");
+      const icon = document.getElementById("toastIcon");
+
+      msg.textContent = message;
+      if (iconType === "shield") {
+        icon.className = "fa-solid fa-shield-halved text-indigo-400 text-sm";
+      } else if (iconType === "headset") {
+        icon.className = "fa-solid fa-headset text-cyan-400 text-sm";
+      } else {
+        icon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
+      }
+
+      toast.classList.remove("opacity-0", "pointer-events-none");
+      toast.classList.add("opacity-100");
+
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0", "pointer-events-none");
+      }, 3000);
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
+    // Helper: escape text
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
   </script>
 </body>
 </html>
